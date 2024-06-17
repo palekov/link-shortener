@@ -8,14 +8,16 @@ group = 'ru.palekov'
 version = '1.0-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'ru.palekov:logging-starter-maven:1.0-SNAPSHOT'
+    implementation 'ru.palekov:logging-starter-gradle:1.0-SNAPSHOT'
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.apache.commons:commons-lang3'
 
 }
-
