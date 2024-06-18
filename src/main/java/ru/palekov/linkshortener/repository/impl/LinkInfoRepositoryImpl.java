@@ -1,5 +1,6 @@
 package ru.palekov.linkshortener.repository.impl;
 
+import org.springframework.stereotype.Service;
 import ru.palekov.linkshortener.model.LinkInfo;
 import ru.palekov.linkshortener.repository.LinkInfoRepository;
 
@@ -8,6 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Service
 public class LinkInfoRepositoryImpl implements LinkInfoRepository {
 
     private final Map<String, LinkInfo> storage = new ConcurrentHashMap<>();
