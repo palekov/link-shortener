@@ -1,2 +1,10 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: link-shortener
+
 link-shortener:
+  system-id: ${spring.application.name}
   short-link-length: 12

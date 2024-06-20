@@ -8,16 +8,17 @@ import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
 import ru.palekov.linkshortener.dto.CreateShortLinkResponse;
 import ru.palekov.linkshortener.exception.NotFoundException;
 import ru.palekov.linkshortener.model.LinkInfo;
+import ru.palekov.linkshortener.property.LinkShortenerProperty;
 import ru.palekov.linkshortener.repository.LinkInfoRepository;
 
 @Service
 public class LinkInfoServiceImpl implements LinkInfoService {
 
-    @Value("${link-shortener.short-link-length}")
-    private int shortLinkLength;
-
     @Autowired
     private LinkInfoRepository repository;
+
+    @Autowired
+    private LinkShortenerProperty linkShortenerProperty;
 
     public CreateShortLinkResponse createLinkInfo(CreateShortLinkRequest request) {
         LinkInfo linkInfo = new LinkInfo();
@@ -25,7 +26,7 @@ public class LinkInfoServiceImpl implements LinkInfoService {
         linkInfo.setEndTime(request.getEndTime());
         linkInfo.setDescription(request.getDescription());
         linkInfo.setActive(request.getActive());
-        linkInfo.setShortLink(RandomStringUtils.randomAlphanumeric(shortLinkLength));
+        linkInfo.setShortLink(RandomStringUtils.randomAlphanumeric(linkShortenerProperty.getShortLinkLength()));
         linkInfo.setOpeningCount(0L);
 
         repository.saveShortLink(linkInfo);
