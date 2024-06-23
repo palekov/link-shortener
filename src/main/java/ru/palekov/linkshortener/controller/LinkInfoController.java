@@ -11,16 +11,19 @@ import ru.palekov.linkshortener.dto.CreateShortLinkResponse;
 import ru.palekov.linkshortener.dto.common.CommonResponse;
 import ru.palekov.linkshortener.service.LinkInfoService;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/link-infos")
-public class AdminController {
+public class LinkInfoController {
 
     private final LinkInfoService linkInfoService;
 
     @PostMapping
-    public CommonResponse<CreateShortLinkResponse> postCreateShortLink(@RequestBody CommonResponse<CreateShortLinkRequest> request) {
+    public CommonResponse<CreateShortLinkResponse> postCreateShortLink(
+            @RequestBody @Valid CommonResponse<CreateShortLinkRequest> request) {
         log.info("Received request to create short link: {}", request);
 
         CreateShortLinkResponse createShortLinkResponse = linkInfoService.createLinkInfo(request.getBody());
