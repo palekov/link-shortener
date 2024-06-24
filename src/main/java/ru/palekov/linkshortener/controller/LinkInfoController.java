@@ -2,12 +2,10 @@ package ru.palekov.linkshortener.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
 import ru.palekov.linkshortener.dto.CreateShortLinkResponse;
+import ru.palekov.linkshortener.dto.common.CommonRequest;
 import ru.palekov.linkshortener.dto.common.CommonResponse;
 import ru.palekov.linkshortener.service.LinkInfoService;
 
@@ -23,7 +21,7 @@ public class LinkInfoController {
 
     @PostMapping
     public CommonResponse<CreateShortLinkResponse> postCreateShortLink(
-            @RequestBody @Valid CommonResponse<CreateShortLinkRequest> request) {
+            @RequestBody @Valid CommonRequest<CreateShortLinkRequest> request) {
         log.info("Received request to create short link: {}", request);
 
         CreateShortLinkResponse createShortLinkResponse = linkInfoService.createLinkInfo(request.getBody());

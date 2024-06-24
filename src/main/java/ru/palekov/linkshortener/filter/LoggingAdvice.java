@@ -1,7 +1,6 @@
 package ru.palekov.linkshortener.filter;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpInputMessage;
@@ -21,7 +20,7 @@ public class LoggingAdvice extends RequestBodyAdviceAdapter {
 
     @Override
     public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        log.info("Тело запроса: {} {} {}", request.getMethod(), request.getRequestURI(), body);
+        log.info("Reqest body: {} {} {}", request.getMethod(), request.getRequestURI(), body);
         return body;
     }
 

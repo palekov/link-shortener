@@ -2,10 +2,7 @@ package ru.palekov.linkshortener.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.ZonedDateTime;
 
 @Getter
@@ -15,13 +12,14 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 public class CreateShortLinkRequest {
 
-    @NotEmpty
-    @Pattern(regexp = "https?://.+\\..+")
+    @NotEmpty(message = "Link must not be empty")
+    @Size(min = 10, max = 4096, message = "Link length must be between 10 and 4096")
+    @Pattern(regexp = "https?://.+\\..+", message = "Link does not match url pattern")
     private String link;
-    @Future
+    @Future(message = "Date must be in future")
     private ZonedDateTime endTime;
-    @NotEmpty
+    @NotEmpty(message = "Description must not be empty")
     private String description;
-    @NotNull
+    @NotNull(message = "Active flag must not be empty")
     private Boolean active;
 }
