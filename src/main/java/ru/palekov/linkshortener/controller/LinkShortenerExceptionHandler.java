@@ -13,10 +13,13 @@ import ru.palekov.linkshortener.dto.common.ValidationError;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+
 @Slf4j
 @RestControllerAdvice
 public class LinkShortenerExceptionHandler {
 
+    @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public CommonResponse<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
