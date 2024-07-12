@@ -4,7 +4,15 @@ server:
 spring:
   application:
     name: link-shortener
-
+  datasource:
+    url: jdbc:postgresql://localhost:5433/mentoring
+    username: dev
+    password: Ab123456
+    hikari:
+      schema: link_shortener
+      connection-init-sql: CREATE SCHEMA IF NOT EXISTS ${spring.datasource.hikari.schema};
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 link-shortener:
   system-id: ${spring.application.name}
   short-link-length: 12
