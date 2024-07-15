@@ -1,7 +1,11 @@
 package ru.palekov.linkshortener.model;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,9 +14,12 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Entity
 public class LinkInfo {
 
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     private String link;
     private ZonedDateTime endTime;
