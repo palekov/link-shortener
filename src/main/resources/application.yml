@@ -5,7 +5,7 @@ spring:
   application:
     name: link-shortener
   datasource:
-    url: jdbc:postgresql://localhost:5432/shortener
+    url: jdbc:postgresql://localhost:5433/shortener
     username: dev
     password: Ab123456
     hikari:

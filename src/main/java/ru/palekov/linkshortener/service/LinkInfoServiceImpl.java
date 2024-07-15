@@ -11,6 +11,9 @@ import ru.palekov.linkshortener.model.LinkInfo;
 import ru.palekov.linkshortener.property.LinkShortenerProperty;
 import ru.palekov.linkshortener.repository.LinkInfoRepository;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 public class LinkInfoServiceImpl implements LinkInfoService {
 
@@ -27,12 +30,22 @@ public class LinkInfoServiceImpl implements LinkInfoService {
         LinkInfo linkInfo = linkInfoMapper.fromCreateRequest(request);
         linkInfo.setShortLink(RandomStringUtils.randomAlphanumeric(linkShortenerProperty.getShortLinkLength()));
         linkInfo.setOpeningCount(0L);
-        repository.saveShortLink(linkInfo);
+        repository.save(linkInfo);
         return linkInfoMapper.toResponse(linkInfo);
     }
 
     public LinkInfo getByShortLink(String shortLink) {
         return repository.findByShortLink(shortLink)
                 .orElseThrow(()-> new NotFoundException("Information by short link " + shortLink + " is not found!"));
+    }
+
+    public List<CreateShortLinkResponse> getAll() {
+        return repository.findAll().stream()
+                .map(linkInfoMapper::toResponse)
+                .toList();
+    }
+
+    public void deleteById(UUID id) {
+        repository.deleteById(id);
     }
 }

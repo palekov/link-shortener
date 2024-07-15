@@ -6,6 +6,9 @@ import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
 import ru.palekov.linkshortener.dto.CreateShortLinkResponse;
 import ru.palekov.linkshortener.model.LinkInfo;
 
+import java.util.List;
+import java.util.UUID;
+
 @Slf4j
 public class LinkInfoServiceLoggingProxy implements LinkInfoService {
 
@@ -39,5 +42,14 @@ public class LinkInfoServiceLoggingProxy implements LinkInfoService {
             stopWatch.stop();
             log.info("Method <getByShortLink> runtime: {} ms", stopWatch.getTotalTimeMillis());
         }
+    }
+
+    @Override
+    public List<CreateShortLinkResponse> getAll() {
+        return linkInfoService.getAll();
+    }
+
+    @Override
+    public void deleteById(UUID id) {
     }
 }

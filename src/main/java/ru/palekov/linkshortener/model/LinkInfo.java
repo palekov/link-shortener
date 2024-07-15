@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class LinkInfo {
+public class LinkInfo extends AuditableEntity {
 
     @Id
     @GeneratedValue(generator = "uuid")
