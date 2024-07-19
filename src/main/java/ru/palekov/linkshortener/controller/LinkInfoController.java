@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
-import ru.palekov.linkshortener.dto.CreateShortLinkResponse;
+import ru.palekov.linkshortener.dto.LinkInfoResponse;
 import ru.palekov.linkshortener.dto.IdRequest;
 import ru.palekov.linkshortener.dto.common.CommonRequest;
 import ru.palekov.linkshortener.dto.common.CommonResponse;
@@ -23,22 +23,22 @@ public class LinkInfoController {
     private final LinkInfoService linkInfoService;
 
     @PostMapping
-    public CommonResponse<CreateShortLinkResponse> postCreateShortLink(
+    public CommonResponse<LinkInfoResponse> postCreateShortLink(
             @RequestBody @Valid CommonRequest<CreateShortLinkRequest> request) {
         log.info("Received request to create short link: {}", request);
 
-        CreateShortLinkResponse createShortLinkResponse = linkInfoService.createLinkInfo(request.getBody());
+        LinkInfoResponse linkInfoResponse = linkInfoService.createLinkInfo(request.getBody());
 
-        return CommonResponse.<CreateShortLinkResponse>builder()
-                .body(createShortLinkResponse)
+        return CommonResponse.<LinkInfoResponse>builder()
+                .body(linkInfoResponse)
                 .build();
     }
 
     @GetMapping
-    public CommonResponse<List<CreateShortLinkResponse>> getAll() {
-        List<CreateShortLinkResponse> linkInfoResponses = linkInfoService.getAll();
+    public CommonResponse<List<LinkInfoResponse>> getAll() {
+        List<LinkInfoResponse> linkInfoResponses = linkInfoService.getAll();
 
-        return CommonResponse.<List<CreateShortLinkResponse>> builder()
+        return CommonResponse.<List<LinkInfoResponse>> builder()
                 .body(linkInfoResponses)
                 .build();
     }

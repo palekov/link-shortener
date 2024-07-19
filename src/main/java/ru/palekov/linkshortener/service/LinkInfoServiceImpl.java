@@ -4,7 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
-import ru.palekov.linkshortener.dto.CreateShortLinkResponse;
+import ru.palekov.linkshortener.dto.LinkInfoResponse;
 import ru.palekov.linkshortener.exception.NotFoundException;
 import ru.palekov.linkshortener.mapper.LinkInfoMapper;
 import ru.palekov.linkshortener.model.LinkInfo;
@@ -26,7 +26,7 @@ public class LinkInfoServiceImpl implements LinkInfoService {
     @Autowired
     private LinkShortenerProperty linkShortenerProperty;
 
-    public CreateShortLinkResponse createLinkInfo(CreateShortLinkRequest request) {
+    public LinkInfoResponse createLinkInfo(CreateShortLinkRequest request) {
         LinkInfo linkInfo = linkInfoMapper.fromCreateRequest(request);
         linkInfo.setShortLink(RandomStringUtils.randomAlphanumeric(linkShortenerProperty.getShortLinkLength()));
         linkInfo.setOpeningCount(0L);
@@ -35,11 +35,15 @@ public class LinkInfoServiceImpl implements LinkInfoService {
     }
 
     public LinkInfo getByShortLink(String shortLink) {
-        return repository.findByShortLink(shortLink)
+        LinkInfo linkInfo = repository.findByShortLinkAndActiveTrue(shortLink)
                 .orElseThrow(()-> new NotFoundException("Information by short link " + shortLink + " is not found!"));
+
+        repository.incrementOpeningCountByShortLink(shortLink);
+
+        return linkInfo;
     }
 
-    public List<CreateShortLinkResponse> getAll() {
+    public List<LinkInfoResponse> getAll() {
         return repository.findAll().stream()
                 .map(linkInfoMapper::toResponse)
                 .toList();

@@ -3,7 +3,7 @@ package ru.palekov.linkshortener.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StopWatch;
 import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
-import ru.palekov.linkshortener.dto.CreateShortLinkResponse;
+import ru.palekov.linkshortener.dto.LinkInfoResponse;
 import ru.palekov.linkshortener.model.LinkInfo;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class LinkInfoServiceLoggingProxy implements LinkInfoService {
     }
 
     @Override
-    public CreateShortLinkResponse createLinkInfo(CreateShortLinkRequest request) {
+    public LinkInfoResponse createLinkInfo(CreateShortLinkRequest request) {
         stopWatch = new StopWatch();
         stopWatch.start();
         try {
@@ -45,7 +45,7 @@ public class LinkInfoServiceLoggingProxy implements LinkInfoService {
     }
 
     @Override
-    public List<CreateShortLinkResponse> getAll() {
+    public List<LinkInfoResponse> getAll() {
         return linkInfoService.getAll();
     }
 
