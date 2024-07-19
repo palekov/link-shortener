@@ -1,6 +1,7 @@
 package ru.palekov.linkshortener.service;
 
 import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
+import ru.palekov.linkshortener.dto.FilterLinkInfoRequest;
 import ru.palekov.linkshortener.dto.LinkInfoResponse;
 import ru.palekov.linkshortener.model.LinkInfo;
 
@@ -16,6 +17,9 @@ public interface LinkInfoService {
     List<LinkInfoResponse> getAll();
 
     void deleteById(UUID id);
+
+    List<LinkInfoResponse> findByFilter(FilterLinkInfoRequest filterRequest);
+
 }
 
 

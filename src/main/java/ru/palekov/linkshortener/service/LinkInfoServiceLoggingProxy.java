@@ -3,6 +3,7 @@ package ru.palekov.linkshortener.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StopWatch;
 import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
+import ru.palekov.linkshortener.dto.FilterLinkInfoRequest;
 import ru.palekov.linkshortener.dto.LinkInfoResponse;
 import ru.palekov.linkshortener.model.LinkInfo;
 
@@ -51,5 +52,9 @@ public class LinkInfoServiceLoggingProxy implements LinkInfoService {
 
     @Override
     public void deleteById(UUID id) {
+    }
+
+    public List<LinkInfoResponse> findByFilter(FilterLinkInfoRequest filterRequest) {
+        return linkInfoService.findByFilter(filterRequest);
     }
 }

@@ -5,8 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
-import ru.palekov.linkshortener.dto.LinkInfoResponse;
+import ru.palekov.linkshortener.dto.FilterLinkInfoRequest;
 import ru.palekov.linkshortener.dto.IdRequest;
+import ru.palekov.linkshortener.dto.LinkInfoResponse;
 import ru.palekov.linkshortener.dto.common.CommonRequest;
 import ru.palekov.linkshortener.dto.common.CommonResponse;
 import ru.palekov.linkshortener.service.LinkInfoService;
@@ -34,11 +35,12 @@ public class LinkInfoController {
                 .build();
     }
 
-    @GetMapping
-    public CommonResponse<List<LinkInfoResponse>> getAll() {
-        List<LinkInfoResponse> linkInfoResponses = linkInfoService.getAll();
+    @PostMapping("/filter")
+    public CommonResponse<List<LinkInfoResponse>> filter(@RequestBody @Valid
+                                                         CommonRequest<FilterLinkInfoRequest> request) {
+        List<LinkInfoResponse> linkInfoResponses = linkInfoService.findByFilter(request.getBody());
 
-        return CommonResponse.<List<LinkInfoResponse>> builder()
+        return CommonResponse.<List<LinkInfoResponse>>builder()
                 .body(linkInfoResponses)
                 .build();
     }

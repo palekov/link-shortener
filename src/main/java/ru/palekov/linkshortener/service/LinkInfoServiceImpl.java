@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
+import ru.palekov.linkshortener.dto.FilterLinkInfoRequest;
 import ru.palekov.linkshortener.dto.LinkInfoResponse;
 import ru.palekov.linkshortener.exception.NotFoundException;
 import ru.palekov.linkshortener.mapper.LinkInfoMapper;
@@ -51,5 +52,18 @@ public class LinkInfoServiceImpl implements LinkInfoService {
 
     public void deleteById(UUID id) {
         repository.deleteById(id);
+    }
+
+    public List<LinkInfoResponse> findByFilter(FilterLinkInfoRequest filterRequest) {
+
+        return repository.findByFilter(
+                        filterRequest.getLinkPart(),
+                        filterRequest.getEndTimeFrom(),
+                        filterRequest.getEndTimeTo(),
+                        filterRequest.getDescriptionPart(),
+                        filterRequest.getActive())
+                .stream()
+                .map(linkInfoMapper::toResponse)
+                .toList();
     }
 }
