@@ -5,6 +5,7 @@ import org.springframework.util.StopWatch;
 import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
 import ru.palekov.linkshortener.dto.FilterLinkInfoRequest;
 import ru.palekov.linkshortener.dto.LinkInfoResponse;
+import ru.palekov.linkshortener.dto.UpdateLinkInfoRequest;
 import ru.palekov.linkshortener.model.LinkInfo;
 
 import java.util.List;
@@ -56,5 +57,9 @@ public class LinkInfoServiceLoggingProxy implements LinkInfoService {
 
     public List<LinkInfoResponse> findByFilter(FilterLinkInfoRequest filterRequest) {
         return linkInfoService.findByFilter(filterRequest);
+    }
+
+    public LinkInfoResponse updateById(UpdateLinkInfoRequest request) {
+        return linkInfoService.updateById(request);
     }
 }

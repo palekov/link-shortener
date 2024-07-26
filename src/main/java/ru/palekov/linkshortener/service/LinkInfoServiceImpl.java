@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.palekov.linkshortener.dto.CreateShortLinkRequest;
 import ru.palekov.linkshortener.dto.FilterLinkInfoRequest;
 import ru.palekov.linkshortener.dto.LinkInfoResponse;
+import ru.palekov.linkshortener.dto.UpdateLinkInfoRequest;
 import ru.palekov.linkshortener.exception.NotFoundException;
 import ru.palekov.linkshortener.mapper.LinkInfoMapper;
 import ru.palekov.linkshortener.model.LinkInfo;
@@ -37,7 +38,7 @@ public class LinkInfoServiceImpl implements LinkInfoService {
 
     public LinkInfo getByShortLink(String shortLink) {
         LinkInfo linkInfo = repository.findByShortLinkAndActiveTrue(shortLink)
-                .orElseThrow(()-> new NotFoundException("Information by short link " + shortLink + " is not found!"));
+                .orElseThrow(() -> new NotFoundException("Information by short link " + shortLink + " is not found!"));
 
         repository.incrementOpeningCountByShortLink(shortLink);
 
@@ -65,5 +66,30 @@ public class LinkInfoServiceImpl implements LinkInfoService {
                 .stream()
                 .map(linkInfoMapper::toResponse)
                 .toList();
+    }
+
+    public LinkInfoResponse updateById(UpdateLinkInfoRequest request) {
+        LinkInfo updateRequest = repository.findById(request.id())
+                .orElseThrow(() -> new NotFoundException(
+                        "Link info with UUID {%s} was not found".formatted(request.id())));
+
+        if (request.link() != null) {
+            updateRequest.setLink(request.link());
+        }
+
+        if (request.active() != null) {
+            updateRequest.setActive(request.active());
+        }
+
+        if (request.description() != null) {
+            updateRequest.setDescription(request.description());
+        }
+
+        if (request.endTime() != null) {
+            updateRequest.setEndTime(request.endTime());
+        }
+        repository.save(updateRequest);
+
+        return linkInfoMapper.toResponse(updateRequest);
     }
 }
