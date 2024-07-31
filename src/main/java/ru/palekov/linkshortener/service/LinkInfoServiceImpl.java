@@ -8,6 +8,7 @@ import ru.palekov.linkshortener.dto.FilterLinkInfoRequest;
 import ru.palekov.linkshortener.dto.LinkInfoResponse;
 import ru.palekov.linkshortener.dto.UpdateLinkInfoRequest;
 import ru.palekov.linkshortener.exception.NotFoundException;
+import ru.palekov.linkshortener.exception.PageNotFoundException;
 import ru.palekov.linkshortener.mapper.LinkInfoMapper;
 import ru.palekov.linkshortener.model.LinkInfo;
 import ru.palekov.linkshortener.property.LinkShortenerProperty;
@@ -38,7 +39,7 @@ public class LinkInfoServiceImpl implements LinkInfoService {
 
     public LinkInfo getByShortLink(String shortLink) {
         LinkInfo linkInfo = repository.findByShortLinkAndActiveTrue(shortLink)
-                .orElseThrow(() -> new NotFoundException("Information by short link " + shortLink + " is not found!"));
+                .orElseThrow(() -> new PageNotFoundException("Information by short link " + shortLink + " is not found!"));
 
         repository.incrementOpeningCountByShortLink(shortLink);
 

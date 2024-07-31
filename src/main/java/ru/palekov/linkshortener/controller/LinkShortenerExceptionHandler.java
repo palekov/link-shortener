@@ -1,7 +1,10 @@
 package ru.palekov.linkshortener.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.palekov.linkshortener.dto.common.CommonResponse;
 import ru.palekov.linkshortener.dto.common.ValidationError;
+import ru.palekov.linkshortener.exception.PageNotFoundException;
 
 import java.util.List;
 
@@ -17,7 +21,10 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class LinkShortenerExceptionHandler {
+
+    private final String notFoundPage;
 
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -38,6 +45,15 @@ public class LinkShortenerExceptionHandler {
                 .errorMessage("Validation error")
                 .validationErrors(validationErrors)
                 .build();
+    }
+
+    @ExceptionHandler(PageNotFoundException.class)
+    public ResponseEntity<String> handleNotFoundPageException(MethodArgumentNotValidException e) {
+        log.error(e.getMessage(), e);
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.TEXT_HTML)
+                .body(notFoundPage);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

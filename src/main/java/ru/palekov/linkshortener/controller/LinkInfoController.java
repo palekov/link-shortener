@@ -23,7 +23,6 @@ public class LinkInfoController {
     @PostMapping
     public CommonResponse<LinkInfoResponse> postCreateShortLink(
             @RequestBody @Valid CommonRequest<CreateShortLinkRequest> request) {
-        log.info("Received request to create short link: {}", request);
 
         LinkInfoResponse linkInfoResponse = linkInfoService.createLinkInfo(request.getBody());
 
